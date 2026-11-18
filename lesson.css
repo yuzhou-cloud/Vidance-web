@@ -1,0 +1,49 @@
+/* Focused practice stage, eight-count navigation and recording review. */
+#studio .workspace{grid-template-columns:minmax(0,1fr) 240px;gap:20px}
+.lesson-stage{position:relative;display:block!important;background:#211e2e;border-radius:22px;overflow:hidden}
+.lesson-stage .reference-column{width:100%}.lesson-stage .view-input-spacer{display:none}
+.lesson-stage .reference-view{height:580px;border-radius:22px;border:0}
+.lesson-stage .reference-view .viewer-top{top:22px;left:24px;right:auto;max-width:55%;font-size:13px}
+.lesson-stage .reference-view .viewer-badge{font-size:9px}.lesson-stage .model-hint{top:auto;bottom:78px;font-size:10px}
+.lesson-stage .user-column{position:absolute;right:18px;top:18px;width:240px;z-index:10;background:#f9f7fd;border-radius:16px;padding:6px;box-shadow:0 12px 36px #0003}
+.lesson-stage .user-input-controls{height:auto;min-height:0;gap:4px;flex-wrap:wrap;padding:4px 4px 9px}
+.lesson-stage .user-input-controls .secondary{font-size:10px;padding:7px}.lesson-stage .user-input-controls .text-button{font-size:9px;padding:5px}
+.lesson-stage .user-view{height:185px!important;min-height:0;border-radius:11px;overflow:hidden}
+.lesson-stage .user-view .viewer-top{top:8px;left:8px;right:8px;font-size:9px;gap:4px;flex-wrap:wrap}
+.lesson-stage .user-view .viewer-badge{font-size:8px;background:#fff9}
+.lesson-stage .camera-placeholder{padding-top:25px}.lesson-stage .camera-ring{display:none}
+.lesson-stage .camera-placeholder h3{font-size:11px;margin:4px}.lesson-stage .camera-placeholder p{font-size:9px;max-width:180px;margin:5px}
+.lesson-stage .camera-placeholder .primary{font-size:10px;padding:7px}
+.lesson-stage .viewer-change{font-size:9px;padding:6px}
+.view-side{position:absolute;top:53%;z-index:8;width:46px;height:54px;border:1px solid #ffffff26;border-radius:15px;background:#ffffff0e;color:#e3d2f8;display:grid;place-items:center;backdrop-filter:blur(10px)}
+.view-left{left:20px}.view-right{right:20px}.view-side:hover,.view-side.selected{background:#9065ce;color:#fff;border-color:#b997e7}
+.view-side svg{width:25px;height:25px}.lesson-stage .model-controls{bottom:37px;gap:8px}.lesson-stage .model-controls button{font-size:10px;padding:8px 13px}
+.lesson-stage .reference-inset{max-height:180px;left:20px;top:auto;bottom:95px}
+.lesson-stage .reference-inset.compact{max-height:none}
+.beat-stage-label{position:absolute;left:24px;top:84px;z-index:4;color:#cbb5e6;pointer-events:none;display:grid;gap:9px}
+.beat-stage-label span{font-size:10px;letter-spacing:1px}.beat-stage-label strong{font-size:17px;color:#f2e9ff;font-weight:500}
+.eight-panel,.record-panel,.review-panel{background:#fff;border:1px solid #ece4f4;border-radius:18px;padding:21px;margin-top:16px}
+.eight-heading,.review-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.eight-heading h3,.record-panel h3,.review-heading h3{margin:7px 0 12px;font-size:17px}
+.eight-heading label{color:#8c70a4;font-size:11px;white-space:nowrap}.beat-settings{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:#f8f5fc;border-radius:10px;padding:11px}
+.beat-settings label{font-size:11px;color:#80718e;display:flex;gap:5px;align-items:center}.beat-settings input,.beat-settings select{width:65px;padding:5px;border:1px solid #dfd4ed;border-radius:6px;background:#fff;color:#624884;font:inherit}.beat-settings .text-button{font-size:11px;padding:5px}
+#beatNotice,#sectionInstruction,#recordStatus,#reviewNote,#exportStatus{font-size:11px;color:#8b7a99;line-height:1.8;margin:12px 0 0}
+.eight-sections{display:flex;gap:8px;overflow:auto;padding:14px 0 5px}.eight-section{min-width:112px;flex:1;text-align:left;border:1px solid #e9e0f1;background:#fbf9fe;border-radius:12px;padding:13px 12px;color:#7e648f}
+.eight-section strong{display:block;font-size:12px}.eight-section small{display:block;font-size:10px;margin-top:7px;color:#a18eaf}.eight-section.selected{background:#eee3fc;border-color:#b18bdf;color:#71479d}.eight-section.playing{box-shadow:inset 0 -3px #9664d3}
+.count-dots{display:flex;gap:8px;margin-top:12px}.count-dots button{height:29px;min-width:29px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#a28faf;background:#f4eff9}.count-dots button.active{background:#8c60c9;color:#fff;box-shadow:0 3px 9px #8c60c933}
+.record-panel{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}.record-panel h3{margin-bottom:5px}.record-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.record-actions button{font-size:11px;padding:10px 13px}.record-actions button:disabled{opacity:.4;cursor:default}
+#countdown{position:fixed;inset:0;background:#2116319c;z-index:90;color:#fff;font-size:100px;display:grid;place-items:center;pointer-events:none;backdrop-filter:blur(3px)}
+.recording .user-column{box-shadow:0 0 0 2px #e47086,0 12px 36px #0003}.recording #recordStatus{color:#be4c69}
+.review-heading>span{font-size:11px;color:#87659e}.review-timeline{display:flex;position:relative;height:22px;border-radius:7px;overflow:hidden;background:#e8e4ed;margin:15px 0 10px}
+.review-timeline button{position:absolute;top:0;height:100%;min-width:1px;padding:0;border-radius:0;transition:none}.review-timeline button:hover{filter:brightness(.9)}
+.review-timeline:after{content:'';position:absolute;left:var(--review-cursor,0%);height:100%;width:2px;background:#3c294e;pointer-events:none}
+.review-error{background:#e9798e}.review-good{background:#76bba2}.review-unknown{background:#d7cfdf}.review-legend{display:flex;gap:15px;flex-wrap:wrap;font-size:10px;color:#9b8aa8}.review-legend span{display:flex;align-items:center;gap:5px}.review-legend i{display:inline-block;width:7px;height:7px;border-radius:50%}
+.review-panel .record-actions{margin-top:16px}.angle-chip{position:absolute;bottom:9px;left:9px;z-index:7;color:#e5d6f4;background:#2c223ecc;padding:5px 7px;border-radius:6px;font-size:9px;pointer-events:none}
+.lesson-stage.overlay-mode .reference-column{display:none}.lesson-stage.overlay-mode{height:580px;background:#242030}
+.lesson-stage.overlay-mode .user-column{inset:0;width:auto;border-radius:22px;padding:0;background:#242030;box-shadow:none}.lesson-stage.overlay-mode .user-input-controls{position:absolute;top:14px;right:14px;z-index:12}.lesson-stage.overlay-mode .user-view{height:580px!important;border:0;border-radius:22px}.lesson-stage.overlay-mode .camera-placeholder h3{font-size:17px}.lesson-stage.overlay-mode .camera-placeholder p{font-size:12px;max-width:320px}
+.lesson-stage.overlay-mode .angle-chip{bottom:45px}.lesson-exporting .lesson-stage{pointer-events:none}.lesson-exporting .record-actions button{opacity:.45}
+@media(max-width:1200px){#studio .workspace{grid-template-columns:minmax(0,1fr)}#studio .feedback-panel{max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:15px}#studio .feedback-panel .panel-heading{grid-column:1/-1}#studio .feedback-panel .setup-list,#studio .feedback-panel .privacy-mini{display:none}}
+@media(max-width:650px){.lesson-stage .reference-view{height:530px}.lesson-stage .user-column{width:165px;right:10px;top:12px}.lesson-stage .user-view{height:130px!important}.lesson-stage .user-input-controls .secondary{font-size:8px;padding:5px}.lesson-stage .user-view .viewer-top{font-size:8px}.lesson-stage .user-view .viewer-badge{font-size:7px}.lesson-stage .camera-placeholder p{display:none}.lesson-stage .camera-placeholder h3{font-size:9px}.lesson-stage .camera-placeholder .primary{font-size:8px}.lesson-stage .reference-view .viewer-top{font-size:10px;max-width:40%;left:16px}.lesson-stage .reference-view .viewer-badge{font-size:7px}.beat-stage-label{top:90px;left:16px}.beat-stage-label strong{font-size:14px}.view-side{width:36px;height:45px}.view-left{left:12px}.view-right{right:12px}.lesson-stage .reference-inset{left:14px}.eight-panel,.record-panel,.review-panel{padding:15px}.eight-heading{align-items:flex-start}.eight-heading h3{font-size:14px}.eight-heading label{font-size:9px}.beat-settings{gap:8px}.beat-settings .text-button{font-size:10px}.eight-section{min-width:100px}.record-actions button{font-size:10px}.review-heading{flex-wrap:wrap}.lesson-stage.overlay-mode,.lesson-stage.overlay-mode .user-view{height:530px!important}}
+
+@media(max-width:480px){.count-dots{gap:5px}.count-dots button{min-width:27px;height:27px}}
+/* Simplified controls and a camera card that gets out of the way. */
+.playback-speed{display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:10px 6px 0;color:#82708e;font-size:12px}.playback-speed select{font:inherit;color:#735190;background:#fff;border:1px solid #e3d7ee;border-radius:9px;padding:7px 12px;min-width:82px}.lesson-stage .model-hint{bottom:25px}.lesson-stage .reference-view .viewer-bottom{bottom:13px}.lesson-stage .reference-inset{bottom:65px}.camera-toggle{position:absolute;right:8px;top:8px;width:28px;height:28px;border:1px solid #e4d8ee;border-radius:9px;background:#fff;color:#8b60ba;z-index:15;display:grid;place-items:center}.camera-toggle svg{width:17px;height:17px}.lesson-stage .user-input-controls{padding-right:31px}.lesson-stage .user-column.camera-collapsed{width:46px;padding:0;background:transparent;box-shadow:none;min-height:46px}.user-column.camera-collapsed>:not(.camera-toggle){display:none!important}.camera-collapsed .camera-toggle{width:44px;height:44px;right:0;top:0;background:#f2e9fc;border-color:#c8addf;box-shadow:0 5px 18px #130b1e33;border-radius:14px}.camera-collapsed .camera-toggle svg{width:23px;height:23px}.lesson-stage.overlay-mode .camera-toggle{display:none}#newUpload~.secondary{margin-left:9px}#library>.page-title{gap:10px;flex-wrap:wrap}#library>.page-title>div{margin-right:auto}.beat-settings{display:none!important}
