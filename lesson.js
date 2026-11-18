@@ -36,7 +36,7 @@ function chooseSection(index){
 function updateLessonPosition(){
   const active=lessonSections.findIndex(s=>time>=s.start-.001&&time<s.end),s=lessonSections[active];
   [...$('#eightSections').children].forEach((b,i)=>{b.classList.toggle('selected',i===chosenSection);b.classList.toggle('playing',i===active);b.setAttribute('aria-pressed',String(i===chosenSection))});
-  const n=s&&!s.intro?Math.min(8,Math.floor((time-s.start)*Number($('#beatBpm').value)/60)+1):0;
+  const n=s&&!s.intro?Math.min(8,Math.floor((time-s.start)*Number($('#beatBpm').value)/60+1e-6)+1):0;
   if(n!==lastCount){[...$('#countDots').children].forEach((d,i)=>{d.classList.toggle('active',i===n-1);d.setAttribute('aria-pressed',String(i===n-1))});lastCount=n;if(s&&!s.intro){const p=referenceAt(time)?.keypoints;const names=[[5,7,9,'左肘'],[6,8,10,'右肘'],[11,13,15,'左膝'],[12,14,16,'右膝']];const angles=names.map(([a,b,c,name])=>{if(!p||[a,b,c].some(i=>p[i][2]<.6))return name+' 暂不清晰';const u=[p[a][0]-p[b][0],p[a][1]-p[b][1]],v=[p[c][0]-p[b][0],p[c][1]-p[b][1]],length=Math.hypot(...u)*Math.hypot(...v);return name+' '+(length?Math.round(Math.acos(Math.max(-1,Math.min(1,(u[0]*v[0]+u[1]*v[1])/length)))*180/Math.PI)+'°':'暂不清晰')});$('#sectionInstruction').textContent='第 '+s.number+' 个八拍 · 第 '+n+' 拍参考：'+angles.join(' · ')+'。可点 1–8 逐拍查看，角度来自原视频平面。';}}
   $('#activeSection').textContent=s?(s.intro?'前奏':`第 ${s.number} 个八拍${s.partial?' · 尾段':''}`):'整段观察';
   $('#activeCount').textContent=n?`第 ${n} 拍 / 8`:'准备好，慢慢来';
