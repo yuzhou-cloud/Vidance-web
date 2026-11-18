@@ -28,8 +28,8 @@ importMotion.onchange=async()=>{
   }catch(e){toast('未能导入：'+e.message)}finally{importMotion.value=''}
 };
 if(remotePreview){
-  $('#serviceBanner').classList.remove('online');$('#serviceStatus').textContent='网页体验版 · 可体验八拍与三维交互，或导入已分析的练习包。新视频自动分析尚未部署到云端。';$('#serviceBanner a').hidden=true;
-  $('#analysisProgress').textContent='新视频分析需本机服务；已分析的舞蹈可通过练习包在其他电脑打开。';
+  $('#serviceBanner').classList.add('online');$('#serviceStatus').textContent='浏览器直接分析 · 无需启动本机程序；首次使用需下载姿态模型。';$('#serviceBanner a').hidden=true;
+  $('#analysisProgress').textContent='选择视频后直接在浏览器分析，视频不会上传到服务器。';
   $('.prototype-tag').innerHTML='<i></i> 网页体验版';$('.profile small').textContent='三维参考 · 八拍练习';
   $('.bottom-note p').textContent='导入的练习包保存在当前浏览器，不会公开上传。';
 }

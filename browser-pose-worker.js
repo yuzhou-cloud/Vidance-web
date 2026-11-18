@@ -1,0 +1,3 @@
+const library=import('./vendor/mediapipe/vision_bundle.mjs');
+let model;
+self.onmessage=async({data})=>{const {id,bitmap}=data;try{const {FilesetResolver,PoseLandmarker}=await library;model ||= await PoseLandmarker.createFromOptions(await FilesetResolver.forVisionTasks(new URL('./vendor/mediapipe/wasm',self.location.href).href),{baseOptions:{modelAssetPath:new URL('./vendor/mediapipe/pose_landmarker_full.task',self.location.href).href,delegate:'CPU'},runningMode:'IMAGE',numPoses:4,minPoseDetectionConfidence:.5,minPosePresenceConfidence:.5});const r=model.detect(bitmap);self.postMessage({id,landmarks:r.landmarks,world:r.worldLandmarks});}catch(e){model=null;self.postMessage({id,error:'浏览器模型加载或分析失败，请检查网络后重试。'+e.message});}finally{bitmap?.close();}};
