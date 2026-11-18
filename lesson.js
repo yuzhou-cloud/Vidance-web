@@ -9,8 +9,8 @@ window.lessonBusy=()=>Boolean(recording||counting||exporting);
 function beatKey(){return 'vidance-beats:'+(currentDance||referenceFile?.name+':'+total||'demo')}
 function refreshLesson(){
   lessonReference=referenceData;lessonFile=referenceFile;lessonKey=beatKey();chosenSection=null;lastCount=-1;
-  window.mySkeletonActive=false;$('#takeReview').hidden=true;lastReview=null;take=null;pendingTake=null;
-  $('#downloadTake').disabled=true;$('#recordStatus').textContent='选好八拍后开启镜头，倒数四拍开始录像。仅录画面，不录声音。';
+  window.mySkeletonActive=false;$('#practiceProgressMarks')?.replaceChildren();$('#takeReview').hidden=true;lastReview=null;take=null;pendingTake=null;
+  $('#downloadTake').disabled=true;$('#recordStatus').textContent='选好八拍后开启镜头，倒数三秒开始录像。仅录画面，不录声音。';
   let saved;try{saved=JSON.parse(localStorage.getItem(lessonKey))}catch{}
   $('#beatBpm').value=saved?.bpm||120;$('#beatFirst').value=saved?.first||0;
   $('#beatNotice').textContent=saved?'已恢复这支舞的八拍设置，可继续校正。':'按 120 BPM 暂分，可识别音乐或手动校正第一拍。';
@@ -72,7 +72,7 @@ async function prepareAt(t){
 $('#recordTake').onclick=async()=>{
   if(window.lessonBusy())return;
   if(source!=='reference'||!referenceData)return toast('请先上传并分析参考视频');
-  if(!window.liveActive||!cam.srcObject)return toast('请先点击右上角“使用实时镜头”');
+  if(!window.liveActive||!cam.srcObject){await startLive();if(!window.liveActive)return;}
   if(!window.MediaRecorder)return toast('当前浏览器不支持录像，请使用新版 Chrome');
   const s=chosenSection===null?{start:0,end:total}:lessonSections[chosenSection];
   if(s.end-s.start<.3)return toast('这段太短，请选择其他八拍');
@@ -80,8 +80,8 @@ $('#recordTake').onclick=async()=>{
   const token=++countdownToken;counting=true;$('#recordTake').disabled=true;$('#finishTake').hidden=false;
   try{
     await prepareAt(s.start);time=s.start;syncTime();
-    const wait=Math.min(1000,60000/Number($('#beatBpm').value));
-    for(let i=4;i>=1;i--){if(token!==countdownToken)return;$('#countdown').hidden=false;$('#countdown').textContent=i;await new Promise(resolve=>setTimeout(resolve,wait));}
+    const wait=1000;
+    for(let i=3;i>=1;i--){if(token!==countdownToken)return;$('#countdown').hidden=false;$('#countdown').textContent=i;await new Promise(resolve=>setTimeout(resolve,wait));}
     if(token!==countdownToken)return;if(!window.liveActive)throw Error('镜头已关闭，请重新开启');
     $('#countdown').hidden=true;counting=false;
     // Camera-only recording keeps the reference audio out of the analysis clip.
@@ -141,7 +141,7 @@ function renderReview(){
   $('#takeReview').hidden=false;updateLessonPosition();
 }
 function setSkeleton(mine){
-  if(window.lessonBusy())return;window.mySkeletonActive=mine;chosenSection=null;
+  if(window.lessonBusy())return;window.mySkeletonActive=mine;window.setReferenceView?.('front');chosenSection=null;
   if(mode==='skeleton')$('[data-mode="compare"]').click();
   $('#sourceLabel').textContent=mine?'我的录像 · 估计 3D':'已分析 · 3D 参考';
   $('#referenceCaption').textContent=mine?'我的三维动作 · 低质量区间保留空缺':(referenceFile?.name||'参考舞者动作');
@@ -167,7 +167,7 @@ async function exportVideo(kind){
   if(window.lessonBusy()||!practiceData||!take)return;if(!window.MediaRecorder)return toast('此浏览器不支持动画视频导出');
   if(kind==='skeleton'&&!window.VidanceScene)return toast('三维场景尚未准备好');
   const token=++exportToken,savedTime=time,savedMine=window.mySkeletonActive,video=document.createElement('video'),canvas=document.createElement('canvas');let recorder,stream,videoUrl,failed=false;
-  pauseLesson();exporting=true;window.lessonExporting=true;document.body.classList.add('lesson-exporting');$('#exportStatus').textContent='正在导出，请保持页面打开；导出耗时约等于录像时长。';
+  pauseLesson();exporting=true;window.lessonExporting=true;window.setReferenceView?.('front');document.body.classList.add('lesson-exporting');$('#exportStatus').textContent='正在导出，请保持页面打开；导出耗时约等于录像时长。';
   try{
     canvas.width=720;canvas.height=720;const ctx=canvas.getContext('2d'),chunks=[];
     if(kind==='annotated'){
@@ -195,7 +195,7 @@ async function exportVideo(kind){
     recorder.stop();await stopped;const blob=new Blob(chunks,{type:recorder.mimeType});downloadBlob(blob,'Vidance-'+(kind==='skeleton'?'我的3D动画':'我的标注录像')+(blob.type.includes('mp4')?'.mp4':'.webm'));
     $('#exportStatus').textContent='视频已生成并下载。三维为估计结果，空缺片段不会补成正确动作。';
   }catch(e){failed=true;$('#exportStatus').textContent='未完成导出：'+e.message;}
-  finally{if(recorder?.state==='recording')recorder.stop();stream?.getTracks().forEach(t=>t.stop());video.pause();video.removeAttribute('src');video.load();if(videoUrl)URL.revokeObjectURL(videoUrl);exporting=false;window.lessonExporting=false;window.mySkeletonActive=savedMine;time=savedTime;document.body.classList.remove('lesson-exporting');syncTime();}
+  finally{if(recorder?.state==='recording')recorder.stop();stream?.getTracks().forEach(t=>t.stop());video.pause();video.removeAttribute('src');video.load();if(videoUrl)URL.revokeObjectURL(videoUrl);exporting=false;window.lessonExporting=false;window.mySkeletonActive=savedMine;window.setReferenceView?.('front');time=savedTime;document.body.classList.remove('lesson-exporting');syncTime();}
 }
 $('#exportSkeleton').onclick=()=>exportVideo('skeleton');$('#exportAnnotated').onclick=()=>exportVideo('annotated');
 window.cancelLessonActivity=()=>{cancelCountdown();finishRecording(false);exportToken++;};
