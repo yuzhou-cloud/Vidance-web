@@ -1,7 +1,7 @@
 /* A focused practice session uses the same video, analysis and recorder state. */
 (()=>{
 const entry=$('#startPractice'),exit=$('#exitPractice');let entering=false;
-function leave(stop=true){if(window.lessonBusy?.()){toast('请先停止录像或等待导出完成');return false;}document.body.classList.remove('immersive-practice');exit.hidden=true;if(stop){pauseLesson();window.stopLive?.();}return true;}
+function leave(stop=true){if(window.lessonBusy?.()){toast('请先停止录像或等待导出完成');return false;}document.body.classList.remove('immersive-practice');$('#cameraPlaceholder h3').textContent='上传你的练习视频';$('#cameraPlaceholder p').textContent='选择实时镜头，或上传视频完成分析后回看。';exit.hidden=true;if(stop){pauseLesson();window.stopLive?.();}return true;}
 window.exitImmersivePractice=leave;
 entry.onclick=async()=>{
  if(entering||window.lessonBusy?.())return;
@@ -9,7 +9,7 @@ entry.onclick=async()=>{
  entering=true;pauseLesson();window.mySkeletonActive=false;
  if(mode!=='compare')$('[data-mode="compare"]').click();
  window.setReferenceView('front');window.setCameraCollapsed(false);
- document.body.classList.add('immersive-practice');exit.hidden=false;window.scrollTo({top:0,behavior:'instant'});
+ $('#cameraPlaceholder h3').textContent='开启镜头后跟练';$('#cameraPlaceholder p').textContent='允许摄像头访问，保持单人全身入镜。';document.body.classList.add('immersive-practice');exit.hidden=false;window.scrollTo({top:0,behavior:'instant'});
  try{if(!window.liveActive)await startLive();}finally{entering=false;}
 };
 exit.onclick=()=>leave();
